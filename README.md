@@ -39,3 +39,26 @@ collision, they define they own namespace:
 ![base](img/kustomize-ns.png)
 
 The easiest way is just to simply add a `namespace` property to 
+
+## Shared namespace
+
+Now in a different scenario: you want to use the same resources (depl/svc) but in the **same namespace**.
+Something like blue/green versions.
+
+First trick is to use the `namePrefix:` in kustomization.yaml. This way you will create these resources:
+```
+$ kubectl apply -k prod
+service/prod-nginx created
+deployment.apps/prod-nginx created
+
+$ kubectl apply -k qa
+service/qa-nginx created 
+deployment.apps/qa-nginx created
+```
+
+But now all all pods share the same labels, so the 2 services: `service/prod-nginx` and `service/qa-nginx`
+will point to the same set of pods (one production pod and one qa)
+
+The solution is to use `commonLabels:`
+
+![shared ns](img/kustomize-sharedns-fuller.png)
