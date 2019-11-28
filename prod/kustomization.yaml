@@ -1,0 +1,5 @@
+commonLabels:
+  env: prod
+namePrefix: prod-
+bases:
+  - ../base
